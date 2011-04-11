@@ -1,0 +1,192 @@
+
+
+
+
+
+
+
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/">
+    <channel rdf:about="http://sit.no/">
+        <title>Ukas middagsmeny på Hangaren</title>
+        <link>http://sit.no/</link>
+        <description>Ukas middagsmeny på Hangaren</description>
+        <items>
+            <rdf:Seq>
+                
+                    <rdf:li rdf:resource="http://sit.no/content/38835/Ukemeny-15"/>
+                
+            </rdf:Seq>
+        </items>
+    </channel>
+
+    
+        <item rdf:about="http://sit.no/content/38835/Ukemeny-15">
+            <title>Uke 15</title>
+                
+            <link>http://sit.no/content.ap?thisId=36444&amp;visuke=15&amp;visaar=2011</link>
+            <description><![CDATA[
+            
+                
+                    <b>Mandag:</b>
+                    <br>
+                    
+                        
+                            Kjøttkaker i brun saus. Serveres med rustikke grønnsaker og kokt potet. (G):
+                            
+                                53,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Gratinert pasta og skinke.:
+                            
+                                33,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Vårruller med grønnsaker. Serveres med salat, rustikke grønnsaker og sweet/chilisaus. (V)(L):
+                            
+                                53,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                    
+                    <br>
+                
+            
+                
+                    <b>Tirsdag:</b>
+                    <br>
+                    
+                        
+                            Fiskekaker. Serveres med råkost, remulade og kokt potet. (G):
+                            
+                                53,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Kyllingwok. (G)(L):
+                            
+                                35,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Falafel. Serveres med tappenade og tzatziki. (V):
+                            
+                                53,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                    
+                    <br>
+                
+            
+                
+                    <b>Onsdag:</b>
+                    <br>
+                    
+                        
+                            Biffgryte. Serveres med salat og potetmos. (G):
+                            
+                                53,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Nachos. Serveres med salat. (G)(L):
+                            
+                                35,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Brokkolimedaljonger. Serveres med kikertsalat og aiolo. (V):
+                            
+                                53,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                    
+                    <br>
+                
+            
+                
+                    <b>Torsdag:</b>
+                    <br>
+                    
+                        
+                            Kyllingmix. Serveres med salat, ris og tomatisert saus. (L)(G):
+                            
+                                53,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Cowboygryte. Serveres med salat.:
+                            
+                                35,- kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Gulrotmedaljonger. Serveres med gresk salat. (V):
+                            
+                                53,-. kroner
+                            
+                            <br>
+                        
+                    
+                        
+                    
+                    <br>
+                
+            
+                
+                    <b>Fredag:</b>
+                    <br>
+                    
+                        
+                            Grøt.:
+                            
+                                26 kroner
+                            
+                            <br>
+                        
+                    
+                        
+                            Se oppslag i kantinen.:
+                            
+                            <br>
+                        
+                    
+                        
+                    
+                        
+                    
+                    <br>
+                
+            
+                    ]]></description>
+            <dc:date>2011-04-11T01:01:00+00:00</dc:date>
+        </item>
+    
+
+</rdf:RDF>
