@@ -1,11 +1,15 @@
+# -*- coding: utf-8 -*-
+
 import urllib2
 import re
 import time
 
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import get_object_or_404
+from django.core import serializers
+
 from dinner.models import Cafeteria, Dinner
-from datetime import date, timedelta
+from datetime import date
 
 
 def get_dinner(request, cafeteria, year, month, day):
@@ -17,19 +21,21 @@ def get_dinner(request, cafeteria, year, month, day):
     cafeteria = get_object_or_404(Cafeteria, name=cafeteria)
     today = date(int(year), int(month), int(day))
     if today.weekday() not in range(5):
-        return HttpResponse('helg')
+        return HttpResponse('weekend')
     
     # First check if we already fetched and saved the dinners
     if Dinner.objects.filter(cafeteria=cafeteria, date=today).count() == 0:
         # Try to fetch dinners from the SiT website
         # @TODO check if the date specified is in this week, if not there is no use trying to fetch dinner
         fetch_and_create(cafeteria, today)
+
     dinners = Dinner.objects.filter(cafeteria=cafeteria, date=today)
     if not dinners:
         # No dinners, sowwy
-        return HttpResponse("fant nada")
-    
-    return HttpResponse(dinners)
+        return HttpResponse("none")
+
+    data = serializers.serialize('json', dinners, ensure_ascii=False, use_natural_keys=True)
+    return HttpResponse(data)
 
 
 def fetch_and_create(cafeteria, date):
