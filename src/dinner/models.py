@@ -46,6 +46,10 @@ def initial_data():
                                     address='Gunnerusgt 1',
                                     feed='http://sit.no/rss.ap?thisId=36453&lang=0&ma=on&ti=on&on=on&to=on&fr=on')
 
+    Cafeteria.objects.get_or_create(name='Moholt',
+                                    address='Trondheim Økonomiske Høgskole',
+                                    feed='http://sit.no/rss.ap?thisId=36456&lang=0&ma=on&ti=on&on=on&to=on&fr=on')
+
     Cafeteria.objects.get_or_create(name='Ranheimsveien',
                                     address='Radmannbygget, Leangen',
                                     feed='http://sit.no/rss.ap?thisId=38753&lang=0&ma=on&ti=on&on=on&to=on&fr=on')

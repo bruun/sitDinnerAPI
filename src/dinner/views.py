@@ -31,6 +31,8 @@ def get_dinner(request, cafeteria, year, month, day):
 
     dinners = Dinner.objects.filter(cafeteria=cafeteria, date=today)
     if not dinners:
+        if cafeteria.name == 'Moholt':
+            return HttpResponse("Sorry, Moholt is not yet supported.")
         # No dinners, sowwy
         return HttpResponse("none")
 
