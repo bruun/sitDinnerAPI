@@ -1,8 +1,8 @@
 from settings import *
-import os
+import sys
 
-with os.open('/etc/sitdinner/db-password', 'rb') as f:
-    db_password = f.readline()
+f = open('/etc/sitdinner/db-password', 'rb')
+db_password = f.readline()
 
 DEBUG = True
 
