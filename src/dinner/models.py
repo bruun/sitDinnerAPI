@@ -26,6 +26,7 @@ class Dinner(models.Model):
 
 
 def initial_data():
+    
     Cafeteria.objects.get_or_create(name='Hangaren',
                                     address='Enden av Stripa, sør for Sentralbygg 1, Gløshaugen',
                                     feed='http://sit.no/rss.ap?thisId=36444&lang=0&ma=on&ti=on&on=on&to=on&fr=on')
