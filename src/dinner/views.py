@@ -14,8 +14,8 @@ from datetime import date
 
 def get_cafeterias(request):
     
-    cafeterias = Cafeteria.objects.all()
-    data = serializers.serialize('json', cafeterias, ensure_ascii=False)
+    data = serializers.serialize('json', Cafeteria.objects.all(),
+                                 fields=('name', 'address'), ensure_ascii=False)
     return HttpResponse(data)
 
 def get_dinner(request, cafeteria, year, month, day):
