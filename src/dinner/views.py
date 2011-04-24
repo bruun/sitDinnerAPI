@@ -7,10 +7,10 @@ import time
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.core import serializers
+from django.utils import simplejson as json
 
 from dinner.models import Cafeteria, Dinner
 from datetime import date
-
 
 def get_cafeterias(request):
     
@@ -24,10 +24,12 @@ def get_dinner(request, cafeteria, year, month, day):
         If the dinner is not previously fetched, it will fetch from sit.no
 
     """
+
     cafeteria = get_object_or_404(Cafeteria, name=cafeteria)
     today = date(int(year), int(month), int(day))
     if today.weekday() not in range(5):
-        return HttpResponse('weekend')
+        error = json.dumps({'error': {'type':'weekend', 'message': 'Det er helg!'}})
+        return HttpResponse(error)
     
     # First check if we already fetched and saved the dinners
     if Dinner.objects.filter(cafeteria=cafeteria, date=today).count() == 0:
@@ -38,10 +40,13 @@ def get_dinner(request, cafeteria, year, month, day):
     dinners = Dinner.objects.filter(cafeteria=cafeteria, date=today)
     if not dinners:
         if cafeteria.name == 'Moholt':
-            return HttpResponse("Sorry, Moholt is not yet supported.")
-        # No dinners, sowwy
-        return HttpResponse("none")
-
+            error = json.dumps({'error': {'type':'unsupported', 'message': 'Beklager, Moholt er foreløpig ikke støttet.'}}, ensure_ascii=False)
+        else:
+            # No dinners, sowwy
+            error = json.dumps({'error': {'type':'weekend', 'message': 'Ingen måltider funnet!'}}, ensure_ascii=False)
+        return HttpResponse(error)
+    
+    
     data = serializers.serialize('json', dinners, ensure_ascii=False, use_natural_keys=True)
     return HttpResponse(data)
 
