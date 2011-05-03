@@ -24,11 +24,11 @@ def get_dinner(request, cafeteria, year, month, day):
         If the dinner is not previously fetched, it will fetch from sit.no
 
     """
-
+    error = []
     cafeteria = get_object_or_404(Cafeteria, name=cafeteria)
     today = date(int(year), int(month), int(day))
     if today.weekday() not in range(5):
-        error = json.dumps({'error': {'type':'weekend', 'message': 'Det er helg!'}})
+        error = [json.dumps({'error': {'type':'weekend', 'message': 'Det er helg!'}})]
         return HttpResponse(error)
     
     # First check if we already fetched and saved the dinners
@@ -40,10 +40,10 @@ def get_dinner(request, cafeteria, year, month, day):
     dinners = Dinner.objects.filter(cafeteria=cafeteria, date=today)
     if not dinners:
         if cafeteria.name == 'Moholt':
-            error = json.dumps({'error': {'type':'unsupported', 'message': 'Beklager, Moholt er foreløpig ikke støttet.'}}, ensure_ascii=False)
+            error = json.dumps([{'error': {'type':'unsupported', 'message': 'Beklager, Moholt er foreløpig ikke støttet.'}}], ensure_ascii=False)
         else:
             # No dinners, sowwy
-            error = json.dumps({'error': {'type':'weekend', 'message': 'Ingen måltider funnet!'}}, ensure_ascii=False)
+            error = json.dumps([{'error': {'type':'weekend', 'message': 'Ingen måltider funnet!'}}], ensure_ascii=False)
         return HttpResponse(error)
     
     
@@ -115,6 +115,6 @@ def fetch_and_create(cafeteria, date):
 
                     for item in menu[day]:
                         for food, price in item.iteritems():
-                            Dinner.objects.create(cafeteria=cafeteria, description=food, price=price, date=today)
+                            Dinner.objects.get_or_create(cafeteria=cafeteria, description=food, price=price, date=today)
                             #print "         %s: %s til %s kroner" % (today, food, price)
     return
