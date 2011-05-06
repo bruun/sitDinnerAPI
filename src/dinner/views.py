@@ -28,7 +28,7 @@ def get_dinner(request, cafeteria, year, month, day):
     cafeteria = get_object_or_404(Cafeteria, name=cafeteria)
     today = date(int(year), int(month), int(day))
     if today.weekday() not in range(5):
-        error = [json.dumps({'error': {'type':'weekend', 'message': 'Det er helg!'}})]
+        error = json.dumps([{'error': {'type':'weekend', 'message': 'Det er helg!'}}])
         return HttpResponse(error)
     
     # First check if we already fetched and saved the dinners
