@@ -157,12 +157,12 @@ def fetch_and_create(cafeteria, date):
                     counter = counter + 1
 
         for day in menu:
-            print day
+            #print day
             # Norwegian week number
             week = date.isocalendar()[1] + 1
             today = date.fromtimestamp(time.mktime(time.strptime('%d %d %d'  % (date.today().year, week, weekdays[day]) , '%Y %W %w')))
             for item in menu[day]:
                 for food, price in item.iteritems():
                     Dinner.objects.get_or_create(cafeteria=cafeteria, description=food, price=price, date=today)
-                    print "         %s: %s til %s kroner" % (today, food, price)
+                    #print "         %s: %s til %s kroner" % (today, food, price)
     return
