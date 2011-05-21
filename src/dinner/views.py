@@ -85,6 +85,7 @@ def get_dinner_for_week_by_day(request, cafeteria, year, month, day):
         # Check if the date specified is in this week, if not there is no use trying to fetch dinner
         if today.isocalendar()[1] == date.today().isocalendar()[1]:
             fetch_and_create(cafeteria, today)
+            print "Fetching"
 
     week_dinners = []
     # Fetch dinners by days remaining that week
@@ -146,7 +147,7 @@ def fetch_and_create(cafeteria, date):
                 counter = 0
                 for item in content_list:
                     if item != '':
-                        r2 = re.match(u'\s*(.*?):\s*(\d+)', item)
+                        r2 = re.match(u'\s*(.*?):\s*\D*(\d+)', item)
                         if r2 != None:
                             food, price = r2.groups()
                             #print food
@@ -163,7 +164,7 @@ def fetch_and_create(cafeteria, date):
             for item in menu[day]:
                 for food, price in item.iteritems():
                     Dinner.objects.get_or_create(cafeteria=cafeteria, description=food, price=price, date=today)
-                    #print "         %s: %s til %s kroner" % (today, food, price)
+                    #print u"         %s: %s til %s kroner" % (today, food, price)
     return
 
 
