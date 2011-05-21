@@ -158,8 +158,8 @@ def fetch_and_create(cafeteria, date):
 
         for day in menu:
             #print day
-            # Norwegian week number
-            week = date.isocalendar()[1] + 1
+            # Iso week number
+            week = date.isocalendar()[1]
             today = date.fromtimestamp(time.mktime(time.strptime('%d %d %d'  % (date.today().year, week, weekdays[day]) , '%Y %W %w')))
             for item in menu[day]:
                 for food, price in item.iteritems():
