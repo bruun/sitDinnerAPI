@@ -35,7 +35,6 @@ def get_dinner_for_day(request, cafeteria, year, month, day):
     if today.weekday() not in range(5):
         error = json.dumps([{'error': {'type':'weekend', 'message': 'Det er helg!'}}])
         return HttpResponse(error)
-    
     # First check if we already fetched and saved the dinners
     if Dinner.objects.filter(cafeteria=cafeteria, date=today).count() == 0:
         # Try to fetch dinners from the SiT website
@@ -79,7 +78,7 @@ def get_dinner_for_week_by_day(request, cafeteria, year, month, day):
     if weekday not in range(5):
         error = json.dumps([{"Weekend": [{"error": "Det er helg!"}]}])
         return HttpResponse(error)
-
+    
     # First check if we already fetched and saved the dinners
     if Dinner.objects.filter(cafeteria=cafeteria, date=today).count() == 0:
         # Try to fetch dinners from the SiT website
@@ -166,3 +165,9 @@ def fetch_and_create(cafeteria, date):
                     Dinner.objects.get_or_create(cafeteria=cafeteria, description=food, price=price, date=today)
                     #print "         %s: %s til %s kroner" % (today, food, price)
     return
+
+
+def delete_future():
+    future = Dinner.objects.filter(date__gt=date.today())
+    for f in future:
+        f.delete()
