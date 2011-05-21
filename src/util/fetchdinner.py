@@ -19,7 +19,7 @@ weekdays = {'Mandag':1,
 
         
 try:        
-    p = urllib2.urlopen('http://sit.no/rss.ap?thisId=36447&lang=0&ma=on&ti=on&on=on&to=on&fr=on', timeout=5).read().decode('utf-8')
+    p = urllib2.urlopen('http://www.sit.no/rss.ap?thisId=36447&lang=0&ma=on&ti=on&on=on&to=on&fr=on', timeout=5).read().decode('utf-8')
 except urllib2.HTTPError, e:
     print e.code
     print e.msg

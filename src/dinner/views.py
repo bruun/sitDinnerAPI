@@ -10,7 +10,7 @@ from django.core import serializers
 from django.utils import simplejson as json
 
 from dinner.models import Cafeteria, Dinner
-from datetime import date
+from datetime import date, timedelta
 
 def get_cafeterias(request):
     
@@ -18,7 +18,12 @@ def get_cafeterias(request):
                                  fields=('name', 'address'), ensure_ascii=False)
     return HttpResponse(data)
 
-def get_dinner(request, cafeteria, year, month, day):
+def get_dinner_for_today(request, cafeteria):
+    today = date.today()
+    return get_dinner_for_day(request, cafeteria, today.year, today.month, today.day)
+
+
+def get_dinner_for_day(request, cafeteria, year, month, day):
     """
         Fetches the dinner for the requested day of the week.
         If the dinner is not previously fetched, it will fetch from sit.no
@@ -36,7 +41,7 @@ def get_dinner(request, cafeteria, year, month, day):
         # Try to fetch dinners from the SiT website
         # @TODO check if the date specified is in this week, if not there is no use trying to fetch dinner
         fetch_and_create(cafeteria, today)
-
+    
     dinners = Dinner.objects.filter(cafeteria=cafeteria, date=today)
     if not dinners:
         if cafeteria.name == 'Moholt':
@@ -50,9 +55,63 @@ def get_dinner(request, cafeteria, year, month, day):
     data = serializers.serialize('json', dinners, ensure_ascii=False, use_natural_keys=True)
     return HttpResponse(data)
 
+def get_dinner_for_this_week(request, cafeteria):
+    today = date.today()
+    return get_dinner_for_week_by_day(request, cafeteria, today.year, today.month, today.day)
+
+def get_dinner_for_week_by_day(request, cafeteria, year, month, day):
+    """
+        Fetches the dinner for the requested day of the week.
+        If the dinner is not previously fetched, it will fetch from sit.no
+
+    """
+    weekdays = {0:"Mandag",
+                1:"Tirsdag",
+                2:"Onsdag",
+                3:"Torsdag",
+                4:"Fredag",}
+
+    cafeteria = get_object_or_404(Cafeteria, name=cafeteria)
+    today = date(int(year), int(month), int(day))
+    weekday = today.weekday()
+
+
+    if weekday not in range(5):
+        error = json.dumps([{"Weekend": [{"error": "Det er helg!"}]}])
+        return HttpResponse(error)
+
+    # First check if we already fetched and saved the dinners
+    if Dinner.objects.filter(cafeteria=cafeteria, date=today).count() == 0:
+        # Try to fetch dinners from the SiT website
+        # Check if the date specified is in this week, if not there is no use trying to fetch dinner
+        if today.isocalendar()[1] == date.today().isocalendar()[1]:
+            fetch_and_create(cafeteria, today)
+
+    week_dinners = []
+    # Fetch dinners by days remaining that week
+    for w in range(5-weekday):
+
+        daily_dinners = Dinner.objects.filter(cafeteria=cafeteria, date=today)
+        if not daily_dinners:
+            # No dinners, sorry... 
+            error = [{'error': u"Ingen måltider funnet!"}]
+            week_dinners.append({weekdays[today.weekday()]: error})
+        else:
+            # Manually serialize (*sigh*) the queryset
+            
+            dinners_serialized = []
+            for dinner in daily_dinners:
+                dinners_serialized.append({
+                    "date": "%s" % dinner.date,
+                    "price": "%s" % dinner.price,
+                    "cafeteria": "%s" % dinner.cafeteria.name,
+                    "description": "%s" % dinner.description
+                })
+            week_dinners.append({weekdays[today.weekday()]: dinners_serialized})
+        today = today + timedelta(days=1)
+    return HttpResponse(json.dumps(week_dinners, ensure_ascii=False))
 
 def fetch_and_create(cafeteria, date):
-
     menu = {'Mandag':[],
             'Tirsdag':[],
             'Onsdag':[],
@@ -97,24 +156,13 @@ def fetch_and_create(cafeteria, date):
                             #print '%s Pris: %s' % (food, price)
                     counter = counter + 1
 
-        r2 = re.compile(u'Uke.(\d+)', re.S)
-        result2 = r2.search(p)
-
-        if result2:
-            try:
-                week = int(result2.group(1))
-            except:
-                week = 0
-
-            if week <= 52 and week >= 1:
-
-                for day in menu:
-                    print day
-
-                    today = date.fromtimestamp(time.mktime(time.strptime('%d %d %d'  % (date.today().year, week, weekdays[day]) , '%Y %W %w')))
-
-                    for item in menu[day]:
-                        for food, price in item.iteritems():
-                            Dinner.objects.get_or_create(cafeteria=cafeteria, description=food, price=price, date=today)
-                            #print "         %s: %s til %s kroner" % (today, food, price)
+        for day in menu:
+            print day
+            # Norwegian week number
+            week = date.isocalendar()[1] + 1
+            today = date.fromtimestamp(time.mktime(time.strptime('%d %d %d'  % (date.today().year, week, weekdays[day]) , '%Y %W %w')))
+            for item in menu[day]:
+                for food, price in item.iteritems():
+                    Dinner.objects.get_or_create(cafeteria=cafeteria, description=food, price=price, date=today)
+                    print "         %s: %s til %s kroner" % (today, food, price)
     return
