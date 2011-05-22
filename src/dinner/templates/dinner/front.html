@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <h1>SiT Kafe API</h1>
+
+
+
+    <h2>FAQ</h2>
+    <ol>
+        <li>
+            <h3>Where do you get the data from?</h3>
+            <p>All menus are found here: http://sit.no/content/31542/Middag</p>
+        </li>
+        <li>
+            <h3>Is this API free?</h3>
+            <p>This API is free for non-commercial use.</p>
+        </li>
+        <li>
+            <h3>How do I use the API?</h3>
+            <p>There are several ways to access the data:
+               <ul>
+                    <li><b>List cafeterias:</b> http://sit.tbruun.bo/api/cafeterias/ </li>
+                    <li><b>Meal for day in cafeteria:</b> http://sit.tbruun.bo/api/cafeteria/<b>NAVN</b>/<b>YYYY-MM-DD</b> </li>
+                    <li><b>Meal from day in week:</b> http://sit.tbruun.bo/api/cafeteria/<b>NAVN</b>/weekly/<b>YYYY-MM-DD</b> </li>
+               </ul>
+            </p>
+        </li>
+         <li>
+            <h3>The API says no meal was found on a given weekday, but the SiT website claims there is.</h3>
+            <p>The SiT RSS-feeds change from time to time, making this site unable to process them.<br>
+                If you discover such a case, please send me an email at <i>thomas(dot)bruun(at)gmail(dot)com</i>, with information about the <b>cafeteria and date</b>.</p>
+        </li>
+        <li>
+            <h3>Can I access menus from previous weeks?</h3>
+            <p>Yes, if it was accessed via the API that week. Unfortunately SiT does not keep a record of meals from previous weeks.</p>
+        </li>
+        <li>
+            <h3>I am having problems with the iPhone app.</h3>
+            <p>I the app claims that no meal was found, please refer to question 4.
+                <br>For other issues, please send me an email at <i>thomas(dot)bruun(at)gmail(dot)com</i>, with information with <b>your iPhone model, iOS version, and an explanation of the issue</b></p>
+        </li>
+        <li>
+            <h3>Who are you?</h3>
+            <p>My name is Thomas Bruun, and I study computer science at the Norwegian University of Science and Technology (NUTS!).</p>
+        </li>
+        <li>
+            <h3>What is the API written in?</h3>
+            <p><a href='http://djangoproject.org/'>Django!</a></p>
+        </li>
+    </ol>
+
+
+    
+
+{% endblock %}
