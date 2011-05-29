@@ -42,7 +42,8 @@ def get_dinner_for_day(request, cafeteria, year, month, day):
     if Dinner.objects.filter(cafeteria=cafeteria, date=today).count() == 0:
         # Try to fetch dinners from the SiT website
         # @TODO check if the date specified is in this week, if not there is no use trying to fetch dinner
-        fetch_and_create(cafeteria, today)
+        if today.isocalendar()[1] == date.today().isocalendar()[1]:
+            fetch_and_create(cafeteria, today)
     
     dinners = Dinner.objects.filter(cafeteria=cafeteria, date=today)
     if not dinners:
@@ -159,15 +160,41 @@ def fetch_and_create(cafeteria, date):
                             #print '%s Pris: %s' % (food, price)
                     counter = counter + 1
 
+
         for day in menu:
             #print day
             # Iso week number
             week = date.isocalendar()[1]
             today = date.fromtimestamp(time.mktime(time.strptime('%d %d %d'  % (date.today().year, week, weekdays[day]) , '%Y %W %w')))
+            old_meals = Dinner.objects.filter(cafeteria=cafeteria, date=today)
+
+            # Find out if any of the meals in the database has been deleted
+            for old_meal in old_meals:
+                remove = True
+                for item in menu[day]:
+                    for description, price in item.iteritems():
+                        if description == old_meal.description and int(price) == old_meal.price:
+                            remove = False
+                            break
+                    if not remove:
+                        break
+                if remove:
+                    print 'Deleting meal %s in %s' % (old_meal.description, cafeteria.name)
+                    old_meal.delete()
+
+
+            # Add new meals
             for item in menu[day]:
-                for food, price in item.iteritems():
-                    Dinner.objects.get_or_create(cafeteria=cafeteria, description=food, price=price, date=today)
+                for description, price in item.iteritems():
+                    add = True
+                    for old_meal in old_meals:
+                        if old_meal.description == description and old_meal.price == int(price):
+                            add = False
+                    if add:
+                        print "adding"
+                        Dinner.objects.create(cafeteria=cafeteria, description=description, price=price, date=today)
                     #print u"         %s: %s til %s kroner" % (today, food, price)
+
     return
 
 
