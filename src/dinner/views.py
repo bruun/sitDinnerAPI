@@ -179,7 +179,7 @@ def fetch_and_create(cafeteria, date):
                     if not remove:
                         break
                 if remove:
-                    print 'Deleting meal %s in %s' % (old_meal.description, cafeteria.name)
+                    print u'Deleting meal %s in %s' % (old_meal.description, cafeteria.name)
                     old_meal.delete()
 
 
@@ -191,7 +191,7 @@ def fetch_and_create(cafeteria, date):
                         if old_meal.description == description and old_meal.price == int(price):
                             add = False
                     if add:
-                        print "Adding meal %s in %s" % (description, cafeteria.name)
+                        print u"Adding meal %s in %s" % (description, cafeteria.name)
                         Dinner.objects.create(cafeteria=cafeteria, description=description, price=price, date=today)
                     #print u"         %s: %s til %s kroner" % (today, food, price)
 
