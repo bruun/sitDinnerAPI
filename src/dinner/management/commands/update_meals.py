@@ -13,4 +13,4 @@ class Command(BaseCommand):
         for cafeteria in cafeterias:
             #Dinner.objects.create(cafeteria=cafeteria, date=date(2011,5,30), description='trololol', price=42)
             fetch_and_create(cafeteria, date.today())
-        print datetime.now() - start
+        print "Updated meals at %s in %s sec" % (datetime.now(), datetime.now() - start)

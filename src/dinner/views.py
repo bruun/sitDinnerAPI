@@ -191,7 +191,7 @@ def fetch_and_create(cafeteria, date):
                         if old_meal.description == description and old_meal.price == int(price):
                             add = False
                     if add:
-                        print "adding"
+                        print "Adding meal %s in %s" % (description, cafeteria.name)
                         Dinner.objects.create(cafeteria=cafeteria, description=description, price=price, date=today)
                     #print u"         %s: %s til %s kroner" % (today, food, price)
 
