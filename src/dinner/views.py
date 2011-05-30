@@ -156,8 +156,13 @@ def fetch_and_create(cafeteria, date):
                             food, price = r2.groups()
                             #print food
                             menu[day].append({food: price})
-
-                            #print '%s Pris: %s' % (food, price)
+                        else:
+                            r2 = re.match(u'\s*(.*?):\s*', item)
+                            if r2 != None:
+                                food = r2.groups()
+                                #print food
+                                menu[day].append({food: '0'})
+                                #print '%s Pris: %s' % (food, price)
                     counter = counter + 1
 
 
