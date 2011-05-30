@@ -159,7 +159,7 @@ def fetch_and_create(cafeteria, date):
                         else:
                             r2 = re.match(u'\s*(.*?):\s*', item)
                             if r2 != None:
-                                food = r2.groups()
+                                food = r2.group(1)
                                 #print food
                                 menu[day].append({food: '0'})
                                 #print '%s Pris: %s' % (food, price)
