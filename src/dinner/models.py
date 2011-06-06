@@ -62,3 +62,7 @@ def initial_data():
     Cafeteria.objects.get_or_create(name='DMMH',
                                     address='Dalen, ved KBS kjøpesenter',
                                     feed='http://sit.no/rss.ap?thisId=38798&lang=0&ma=on&ti=on&on=on&to=on&fr=on')
+
+    Cafeteria.objects.get_or_create(name='Øya',
+                                    address='',
+                                    feed='http://sit.no/rss.ap?thisId=37228&lang=0&ma=on&ti=on&on=on&to=on&fr=on')
