@@ -63,6 +63,9 @@ def initial_data():
                                     address='Dalen, ved KBS kjøpesenter',
                                     feed='http://sit.no/rss.ap?thisId=38798&lang=0&ma=on&ti=on&on=on&to=on&fr=on')
 
-    Cafeteria.objects.get_or_create(name='Øya',
+    Cafeteria.objects.get_or_create(name='Oya',
                                     address='',
                                     feed='http://sit.no/rss.ap?thisId=37228&lang=0&ma=on&ti=on&on=on&to=on&fr=on')
+    Cafeteria.objects.get_or_create(name='Elektro',
+                                    address='',
+                                    feed='http://sit.no/rss.ap?thisId=40227&lang=0&ma=on&ti=on&on=on&to=on&fr=on')
