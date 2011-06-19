@@ -4,7 +4,7 @@ import sys
 f = open('/etc/sitdinner/db-password', 'rb')
 db_password = f.readline()
 
-DEBUG = False
+DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',    # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
