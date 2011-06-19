@@ -88,9 +88,9 @@ def get_dinner_for_week_by_day(request, cafeteria, year, month, day):
         # Try to fetch dinners from the SiT website
         # Check if the date specified is in this week, if not there is no use trying to fetch dinner
         if today.isocalendar()[1] == date.today().isocalendar()[1]:
-            fetch_and_create(cafeteria, today)
             print "Fetching"
-
+            fetch_and_create(cafeteria, today)
+            
     week_dinners = []
     # Fetch dinners by days remaining that week
     for w in range(5-weekday):
@@ -141,28 +141,36 @@ def fetch_and_create(cafeteria, date):
     else:
         for day in menu:
             #print day
-            r1 = re.compile(u'<b>%s:</b>(?:\s*\W+\s*)(.*?)(?:<br>\s*<br>)' % day, re.S)
+            
+            r1 = re.compile(u'<b>%s\:</b>(?:\s*\W+\s*)(.*?)(?:<br>\s*<br>)' % day, re.S)
             result1 = r1.search(p)
             if result1:
                 contents = result1.group(1)
-                #print contents
+                print 'Content: %s' % contents
 
-                content_list = contents.split('br>')
+                # Shady hack...
+                content_list = contents.split('>')
                 counter = 0
                 for item in content_list:
                     if item != '':
                         r2 = re.match(u'\s*(.*?):\s*\D*(\d+)', item)
                         if r2 != None:
                             food, price = r2.groups()
-                            #print food
-                            menu[day].append({food: price})
+                            # If there is no meal that day, we risk that the regex parse the next weekday as a meal
+                            if food not in weekdays.keys():
+                                #print food
+                                menu[day].append({food: price})
+                                #print '%s Pris: %s' % (food, price)
                         else:
+                            print item
                             r2 = re.match(u'\s*(.*?):\s*', item)
+
                             if r2 != None:
                                 food = r2.group(1)
-                                #print food
-                                menu[day].append({food: '0'})
-                                #print '%s Pris: %s' % (food, price)
+                                if food not in weekdays.keys():
+                                    #print food
+                                    menu[day].append({food: '0'})
+                                    #print '%s Pris: 0' % food
                     counter = counter + 1
 
 
@@ -184,7 +192,7 @@ def fetch_and_create(cafeteria, date):
                     if not remove:
                         break
                 if remove:
-                    #print u'Deleting meal %s in %s' % (old_meal.description, cafeteria.name)
+                    print u'Deleting meal %s in %s' % (old_meal.description, cafeteria.name)
                     old_meal.delete()
 
 
@@ -196,9 +204,9 @@ def fetch_and_create(cafeteria, date):
                         if old_meal.description == description and old_meal.price == int(price):
                             add = False
                     if add:
-                        #print u"Adding meal %s in %s" % (description, cafeteria.name)
+                        print u"Adding meal %s in %s" % (description, cafeteria.name)
                         Dinner.objects.create(cafeteria=cafeteria, description=description, price=price, date=today)
-                    #print u"         %s: %s til %s kroner" % (today, food, price)
+                    print u"         %s: %s til %s kroner" % (today, food, price)
 
     return
 
