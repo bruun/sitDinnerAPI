@@ -146,7 +146,7 @@ def fetch_and_create(cafeteria, date):
             result1 = r1.search(p)
             if result1:
                 contents = result1.group(1)
-                print 'Content: %s' % contents
+                #print 'Content: %s' % contents
 
                 # Shady hack...
                 content_list = contents.split('>')
@@ -162,7 +162,7 @@ def fetch_and_create(cafeteria, date):
                                 menu[day].append({food: price})
                                 #print '%s Pris: %s' % (food, price)
                         else:
-                            print item
+                            #print item
                             r2 = re.match(u'\s*(.*?):\s*', item)
 
                             if r2 != None:
@@ -192,7 +192,7 @@ def fetch_and_create(cafeteria, date):
                     if not remove:
                         break
                 if remove:
-                    print u'Deleting meal %s in %s' % (old_meal.description, cafeteria.name)
+                    #print u'Deleting meal %s in %s' % (old_meal.description, cafeteria.name)
                     old_meal.delete()
 
 
@@ -204,9 +204,9 @@ def fetch_and_create(cafeteria, date):
                         if old_meal.description == description and old_meal.price == int(price):
                             add = False
                     if add:
-                        print u"Adding meal %s in %s" % (description, cafeteria.name)
+                        #print u"Adding meal %s in %s" % (description, cafeteria.name)
                         Dinner.objects.create(cafeteria=cafeteria, description=description, price=price, date=today)
-                    print u"         %s: %s til %s kroner" % (today, food, price)
+                    #print u"         %s: %s til %s kroner" % (today, food, price)
 
     return
 
