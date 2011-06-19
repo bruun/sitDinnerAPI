@@ -17,7 +17,7 @@ class Dinner(models.Model):
 
     date = models.DateField()
     cafeteria = models.ForeignKey('Cafeteria', related_name='dinners')
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=1000)
     price = models.IntegerField()
 
     def __unicode__(self):
